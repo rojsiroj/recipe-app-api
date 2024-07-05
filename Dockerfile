@@ -9,8 +9,8 @@ COPY ./app /app
 WORKDIR /app
 EXPOSE 8000
 
-#
-#
+# if [$DEV = "true"]; then \
+# fi && \
 
 ARG DEV
 RUN python -m venv /py && \
@@ -19,9 +19,7 @@ RUN python -m venv /py && \
     apk add --update --no-cache --virtual .tmp-build-deps \
     build-base postgresql-dev musl-dev && \
     /py/bin/pip install -r /tmp/requirements.txt && \
-    if [$DEV = "true"]; then \
     /py/bin/pip install -r /tmp/requirements.dev.txt; \
-    fi && \
     rm -rf /tmp && \
     apk del .tmp-build-deps && \
     adduser \
