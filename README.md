@@ -1,2 +1,2 @@
 # recipe-app-api
-Recipe API using Django REST
+Recipe API using TDD principle with Django REST Framework
