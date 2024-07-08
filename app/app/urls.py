@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
-from drf_spectacular.views import (
+from drf_spectacular.views import (  # type: ignore
     SpectacularAPIView,
     SpectacularSwaggerView,
 )
@@ -30,4 +30,5 @@ urlpatterns = [
         name="api-docs",
     ),
     path("api/user/", include("user.urls")),
+    path("api/recipe/", include("recipe.urls")),
 ]
