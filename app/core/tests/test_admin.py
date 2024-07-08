@@ -2,11 +2,13 @@
 Test for the Django admin modifications
 """
 
+from decimal import Decimal
 from django.test import TestCase
 from django.urls import reverse
 from django.test import Client
 
 from core.helper import create_user
+from core.models import Recipe, Tag
 
 
 class AdminSiteTests(TestCase):
@@ -27,6 +29,20 @@ class AdminSiteTests(TestCase):
             password="testpass1234",
             name="Test User",
         )
+
+        self.recipe = Recipe.objects.create(
+            user=self.user,
+            title="Sample recipe name",
+            time_minutes=5,
+            price=Decimal("5.50"),
+            description="Sample recipe description.",
+        )
+
+        self.tag = Tag.objects.create(user=self.user, name="Test Tag")
+
+    """
+    Test User admin starts here
+    """
 
     def test_users_list(self):
         # Test that users are listed on page
@@ -49,3 +65,25 @@ class AdminSiteTests(TestCase):
         res = self.client.get(url)
 
         self.assertEqual(res.status_code, 200)
+
+    """
+        Test Recipe model starts here
+    """
+
+    def test_recipes_list(self):
+        # Test that recipes are listed on page
+        url = reverse("admin:core_recipe_changelist")
+        res = self.client.get(url)
+
+        self.assertContains(res, self.recipe.title)
+
+    """
+        Test Tag admin starts here
+    """
+
+    def test_tags_list(self):
+        # Test that tags are listed on page
+        url = reverse("admin:core_tag_changelist")
+        res = self.client.get(url)
+
+        self.assertContains(res, self.tag.name)
