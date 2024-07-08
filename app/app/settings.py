@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     # Custom modules starts here
     "core",
     "user",
+    "recipe",
 ]
 
 MIDDLEWARE = [
