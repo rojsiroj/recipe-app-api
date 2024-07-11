@@ -274,3 +274,20 @@ class PrivateRecipeAPITests(TestCase):
         self.assertEqual(recipe.tags.count(), 1)
         self.assertIn(tag2, recipe.tags.all())
         self.assertNotIn(tag1, recipe.tags.all())
+
+    def test_clear_recipe_tags(self):
+        # Test clearing recipe tags
+        tag1 = Tag.objects.create(user=self.user, name="Vegan")
+        recipe = create_recipe(user=self.user)
+        recipe.tags.add(tag1)
+
+        payload = {
+            "tags": [],
+        }
+        url = detail_url(recipe.id)
+        res = self.client.patch(url, payload, format="json")
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+
+        recipe.refresh_from_db()
+        self.assertEqual(recipe.tags.count(), 0)
+        self.assertNotIn(tag1, recipe.tags.all())
