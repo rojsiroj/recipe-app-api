@@ -8,7 +8,7 @@ from django.urls import reverse
 from django.test import Client
 
 from core.helper import create_user
-from core.models import Recipe, Tag
+from core.models import Recipe, Tag, Ingredient
 
 
 class AdminSiteTests(TestCase):
@@ -39,6 +39,10 @@ class AdminSiteTests(TestCase):
         )
 
         self.tag = Tag.objects.create(user=self.user, name="Test Tag")
+        self.ingredient = Ingredient.objects.create(
+            user=self.user,
+            name="Test Ingredient",
+        )
 
     """
     Test User admin starts here
@@ -87,3 +91,14 @@ class AdminSiteTests(TestCase):
         res = self.client.get(url)
 
         self.assertContains(res, self.tag.name)
+
+    """
+        Test Ingredient admin starts here
+    """
+
+    def test_ingredients_list(self):
+        # Test that ingredients are listed on page
+        url = reverse("admin:core_ingredient_changelist")
+        res = self.client.get(url)
+
+        self.assertContains(res, self.ingredient.name)
