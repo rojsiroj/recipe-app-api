@@ -9,17 +9,18 @@ COPY ./app /app
 WORKDIR /app
 EXPOSE 8000
 
+#if [$DEV = "1"]; then \
+#fi && \
+
 ARG DEV=0
 RUN python -m venv /py && \
-    echo "It is Dev: ${DEV}"\
+    echo "It is Dev: ${DEV}" &&\
     /py/bin/pip install --upgrade pip && \
     apk add --update --no-cache postgresql-client jpeg-dev && \
     apk add --update --no-cache --virtual .tmp-build-deps \
     build-base postgresql-dev musl-dev zlib zlib-dev && \
     /py/bin/pip install -r /tmp/requirements.txt && \
-    if [$DEV = "1"]; then \
     /py/bin/pip install -r /tmp/requirements.dev.txt; \
-    fi && \
     rm -rf /tmp && \
     apk del .tmp-build-deps && \
     adduser \
