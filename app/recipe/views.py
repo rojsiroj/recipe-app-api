@@ -49,6 +49,7 @@ class TagViewSet(
 class IngredientViewSet(
     mixins.ListModelMixin,
     mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
     viewsets.GenericViewSet,
 ):
     # View for manage ingredient APIs
