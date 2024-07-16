@@ -430,9 +430,13 @@ class PrivateRecipeAPITests(TestCase):
         # Test returning recipes with specific ingredients
         recipe1 = create_recipe(user=self.user, title="Recipe 1")
         recipe2 = create_recipe(user=self.user, title="Recipe 2")
-        ingredient1 = Ingredient.objects.create(user=self.user, name="Salt")
+        ingredient1 = Ingredient.objects.create(
+            user=self.user,
+            name="Salt",
+        )
         ingredient2 = Ingredient.objects.create(
-            user=self.user, name="Pepper"
+            user=self.user,
+            name="Pepper",
         )
         recipe1.ingredients.add(ingredient1)
         recipe2.ingredients.add(ingredient2)
